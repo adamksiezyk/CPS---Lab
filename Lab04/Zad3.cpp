@@ -3,6 +3,12 @@
 #include <fstream>
 #include <string>
 #include <math.h>
+#include <sys/time.h>
+#include <iomanip>
+
+// To measure time
+struct timeval t0;
+struct timeval t1;
 
 template <class T>
 std::complex<T>* LoadComplex(std::string PathRe, std::string PathImag, int &N){
@@ -57,6 +63,8 @@ std::complex<T>* myFFT(std::complex<T> *x, int const &N){
         for(int i=0; i<N; i++){
             X[i] = X1[i%(N/2)] + exp(-j*(T)2.0*(T)M_PI/(T)N*(T)i) * X2[i%(N/2)];
         }
+
+        delete[] x1, X1, x2, X2;
     }
     return X;
 }
@@ -74,8 +82,10 @@ void SaveComplex(std::complex<T> *X, std::string PathRe, std::string PathImag, i
     }
 
     for(int i=0; i<N; i++){ // Write the data to rhe files
-        FileRe << std::real(X[i]) << '\t';
-        FileImag << std::imag(X[i]) << '\t';
+        FileRe << std::setprecision(20) << std::real(X[i]);
+        FileRe << '\t';
+        FileImag << std::setprecision(20) << std::imag(X[i]);
+        FileImag << '\t';
     }
 
     FileRe.close(); // Close the files
@@ -86,11 +96,17 @@ int main(){
     int N = 1024;
     // For double
     std::complex<double> *x_double = LoadComplex<double>("Zad3-xr.dat", "Zad3-xi.dat", N);
+    gettimeofday(&t0, NULL);    // Start time measurment
     std::complex<double> *X_double = myFFT<double>(x_double, N);
+    gettimeofday(&t1, NULL);
+    long t = t1.tv_usec - t0.tv_usec;
+    std::cout << "Computing time: " << t << " us." << std::endl;
     SaveComplex<double>(X_double,"XR_double.dat", "XI_double.dat", N);
 
     // For float
     std::complex<float> *x_float = LoadComplex<float>("Zad3-xr.dat", "Zad3-xi.dat", N);
     std::complex<float> *X_float = myFFT<float>(x_float, N);
     SaveComplex<float>(X_float,"XR_float.dat", "XI_float.dat", N);
+
+    delete[] x_double, X_double, x_float, X_float;
 }

@@ -1,0 +1,8 @@
+clear all; close all; clc;
+
+[s, fs] = audioread('challenge9.wav');
+
+[b1, a1] = butter(4, [690, 950]/(fs/2), 'bandpass');
+[H_BP1, f] = freqz(b1, a1, :1e3, fs);
+figure;
+plot(20*log10(abs(H_BP1)));

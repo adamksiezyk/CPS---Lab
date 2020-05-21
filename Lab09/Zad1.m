@@ -30,5 +30,5 @@ SNR20 = 10*log10(sum(d.^2)./sum((d-y20).^2));
 SNR40 = 10*log10(sum(d.^2)./sum((d-y40).^2));
 
 figure;
-plot(t, d, 'b', t, d40, 'r', t, y40, 'm');
+plot(t, d, 'b', t, d10, 'r', t, y10, 'm');
 legend('dref-original', 'd-with noise', 'y-filtered');

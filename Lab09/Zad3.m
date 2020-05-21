@@ -2,9 +2,9 @@ clear all; close all; clc;
 
 %% Generate pilot
 fp = 19e3;                  % Frequency
-fs = 8e3;                   % Sampling frequency
+fs = 44e3;                  % Sampling frequency
 t = 0:1/fs:1-1/fs;          % Time vector
-p1 = sin(2*pi*fp*t + pi/4); % Pilot
+p1 = cos(2*pi*fp*t + pi/4); % Pilot
 
 %% Estimate pilot's frequency and phase
 freq = 2*pi*fp/fs;
@@ -17,7 +17,7 @@ for n = 1 : length(p1)
     freq = freq + beta*perr;
 end
 
-error = 2*pi*fp*t-pi/4 - theta(1:end-1);
+error = 2*pi*fp*t+pi/4 - theta(1:end-1);
 
 figure;
 %plot(t, 2*pi*fp*t, 'b', t, theta(1:end-1), 'r'); xlabel('t [s]');
@@ -28,7 +28,7 @@ plot(t, error, 'k'); title('Frequency error - const. phase');
 df = 10;    % Modulation depth
 fm = 0.1;   % Modulation frequency
 m = df*sin(2*pi*fm*t);  % Modulating signal
-p2 = sin(2*pi*fp*t+m);  % Pilot with FM
+p2 = cos(2*pi*fp*t+m);  % Pilot with FM
 
 %% Estimate pilot's frequency and phase
 freq = 2*pi*fp/fs;
@@ -41,7 +41,7 @@ for n = 1 : length(p2)
     freq = freq + beta*perr;
 end
 
-error = 2*pi*fp*t+m-pi/2 - theta(1:end-1);
+error = 2*pi*fp*t+m - theta(1:end-1);
 
 figure;
 %plot(t, 2*pi*fp*t+m, 'b', t, theta(1:end-1), 'r'); xlabel('t [s]');

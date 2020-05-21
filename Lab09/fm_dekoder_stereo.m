@@ -12,7 +12,7 @@ bwSERV = 250e3;     % bandwidth of an FM service
 
 %load stereo_samples_fs1000kHz_LR_IQ.mat
 %load stereo_fm_broken_pilot_a.mat;
-%load stereo_fm_broken_pilot_b.mat;
+load stereo_fm_broken_pilot_b.mat;
 %load stereo_fm_broken_pilot_c.mat
 y = I+1i*Q;
 N = length(y);
@@ -69,7 +69,7 @@ plot(f, abs(C38)); xline(p38, 'r', p38); title('C38(f)'); pause;
 p19 = round(p19);
 p38 = round(p38);
 
-%c38 = cos(2*pi*32e3*(0:length(c19)-1)/fs);
+%c38 = cos(2*pi*38e3*(0:length(c19)-1)/fs);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%  ToDo   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
